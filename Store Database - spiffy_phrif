@@ -1,0 +1,36 @@
+--create clothing store database
+
+CREATE TABLE spiffy_phrif (id INTEGER PRIMARY KEY, item TEXT, fabric TEXT, color TEXT, price INTEGER);
+
+INSERT INTO spiffy_phrif VALUES
+(1, "baseball cap", "cotton", "black", 20),
+(2, "sunglasses", "plastic", "brown", 15),
+(3, "necktie", "silk", "red", 15),
+(4, "bracelet", "leather", "black", 10),
+(5, "handkerchief", "cotton", "white", 8),
+(6, "raincoat", "polyester", "yellow", 65),
+(7, "denim jacket", "cotton", "blue", 40),
+(8, "dress shirt", "cotton", "white", 35),
+(9, "casual shirt", "cotton", "blue", 25),
+(10, "belt", "leather", "brown", 30),
+(11, "watch", "steel", "silver", 80),
+(12, "trousers", "wool", "grey", 40),
+(13, "jeans", "cotton", "blue", 35),
+(14, 'chinos', 'cotton', 'khaki', 35),
+(15, 'shoes', 'leather', 'brown', 70);
+
+--display database organized by price
+
+SELECT * FROM spiffy_phrif ORDER BY price desc;
+
+--display sum price of all store items
+
+SELECT SUM(price) FROM spiffy_phrif;
+
+--show number of items sharing the same material
+
+SELECT fabric, COUNT(fabric) FROM spiffy_phrif WHERE fabric="cotton";
+SELECT fabric, COUNT(fabric) FROM spiffy_phrif WHERE fabric="leather";
+
+
+
