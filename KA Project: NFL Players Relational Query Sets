@@ -1,0 +1,53 @@
+/*Created small data sets of active NFL players and used relational queries to link individuals based on similar skills and affiliations*/
+
+
+CREATE TABLE nfl_players (id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT,
+    jersey INTEGER);
+    
+INSERT INTO nfl_players (name, jersey) VALUES
+    ("Fred Warner", 54),
+    ("Nick Bosa", 97),
+    ("Deebo Samuel", 19),
+    ("Jalen Hurts", 1),
+    ("Fletcher Cox", 91),
+    ("Patrick Mahomes", 15),
+    ("Richie James", 80),
+    ("George Kittle", 85),
+    ("Travis Kelce", 87),
+    ("Haason Reddick", 7);
+    
+CREATE TABLE player_info (id INTEGER PRIMARY KEY AUTOINCREMENT, player_id INTEGER, team TEXT, position TEXT);
+
+INSERT INTO player_info (player_id, team, position) VALUES
+    (1, "49ers", "LB"),
+    (2, "49ers", "DL"),
+    (3, "49ers", "WR"),
+    (4, "Eagles", "QB"),
+    (5, "Eagles", "DL"),
+    (6, "Chiefs", "QB"),
+    (7, "Chiefs", "WR"),
+    (8, "49ers", "TE"),
+    (9, "Chiefs", "TE"),
+    (10, "Chiefs", "LB");
+    
+CREATE TABLE skill_set (id INTEGER PRIMARY KEY AUTOINCREMENT, player1_id INTEGER, player2_id INTEGER);
+
+INSERT INTO skill_set (player1_id, player2_id) VALUES
+    (1, 10),
+    (2, 5),
+    (3, 7),
+    (4, 6),
+    (8, 9);    
+    
+SELECT name, team, jersey FROM nfl_players
+    JOIN player_info
+    ON nfl_players.id=player_info.player_id
+    ORDER BY team; 
+    
+    
+SELECT a.name, b.name FROM skill_set
+    INNER JOIN nfl_players a
+    ON skill_set.player1_id=a.id
+    INNER JOIN nfl_players b
+    ON skill_set.player2_id=b.id;
