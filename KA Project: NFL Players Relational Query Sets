@@ -15,7 +15,13 @@ INSERT INTO nfl_players (name, jersey) VALUES
     ("Richie James", 80),
     ("George Kittle", 85),
     ("Travis Kelce", 87),
-    ("Haason Reddick", 7);
+    ("Haason Reddick", 7),
+    ("Jason Kelce", 62),
+    ("James Bradberry", 24),
+    ("Jerick McKinnon", 1),
+    ("Christian McCaffrey", 23),
+    ("Trent Williams", 71),
+    ("Talanoa Hufanga", 29);
     
 CREATE TABLE player_info (id INTEGER PRIMARY KEY AUTOINCREMENT, player_id INTEGER, team TEXT, position TEXT);
 
@@ -29,7 +35,13 @@ INSERT INTO player_info (player_id, team, position) VALUES
     (7, "Chiefs", "WR"),
     (8, "49ers", "TE"),
     (9, "Chiefs", "TE"),
-    (10, "Chiefs", "LB");
+    (10, "Chiefs", "LB"),
+    (11, "Eagles", "OL"),
+    (12, "Eagles", "DB"),
+    (13, "Chiefs", "RB"),
+    (14, "49ers", "RB"),
+    (15, "49ers", "OL"),
+    (16, "49ers", "DB");
     
 CREATE TABLE skill_set (id INTEGER PRIMARY KEY AUTOINCREMENT, player1_id INTEGER, player2_id INTEGER);
 
@@ -38,7 +50,10 @@ INSERT INTO skill_set (player1_id, player2_id) VALUES
     (2, 5),
     (3, 7),
     (4, 6),
-    (8, 9);    
+    (8, 9),
+    (11, 15),
+    (12, 16),
+    (13, 14);    
     
 SELECT name, team, jersey FROM nfl_players
     JOIN player_info
