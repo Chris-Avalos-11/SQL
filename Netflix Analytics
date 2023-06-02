@@ -1,0 +1,30 @@
+#Hello! In this SQL file, I'm querying a database containing Netflix data to answer questions about the database.
+#Database and work can be found here: https://bit.io/CharlotteChaze/BreakIntoTech?tab=Data
+
+
+#1. How many movie titles are there in the database? (movies only, not tv shows) 
+SELECT count(*) AS movies
+FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info" info
+WHERE type='Movie';
+
+#2. When was the most recent batch of tv shows and/or movies added to the database? 
+SELECT max(date(date_added))
+FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info" info;
+
+#3. List all the movies and tv shows in alphabetical order. 
+SELECT title
+FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info" info
+ORDER BY title;
+
+#4. Who was the Director for the movie Bright Star? 
+SELECT ppl.director
+FROM "CharlotteChaze/BreakIntoTech"."netflix_people" ppl
+LEFT JOIN "CharlotteChaze/BreakIntoTech"."netflix_titles_info" info
+ON ppl.show_id=info.show_id
+WHERE info.title='Bright Star';
+
+#5. What is the oldest movie in the database and what year was it made? 
+SELECT title, release_year
+FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info" info
+WHERE info.type='Movie'
+ORDER BY release_year asc limit 1;
