@@ -1,0 +1,41 @@
+/*In this SQL file, I'm am querying a database with customer an orde rinfo to identify key information about customer orders.*/
+
+/*1*/ SELECT * FROM bit_db.customers
+WHERE length(order_id) = 6
+AND order_id <> 'Order ID';
+
+SELECT count(orderID) FROM bit_db.JanSales
+WHERE length(orderID) = 6
+AND orderID <> 'Order ID';
+
+/*2*/ SELECT count(orderID) FROM bit_db.JanSales
+WHERE length(orderID) = 6
+AND orderID <> 'Order ID'
+AND Product='iPhone';
+
+/*3*/ SELECT distinct acctnum FROM bit_db.customers
+INNER JOIN bit_db.FebSales
+ON customers.order_id=FebSales.orderID
+WHERE length(orderID) = 6
+AND orderID <> 'Order ID';
+
+/*4*/ SELECT distinct Product, price FROM bit_db.JanSales
+WHERE price in(SELECT min(price) FROM bit_db.JanSales);
+
+/*5*/ SELECT product, price, sum(quantity)*price AS revenue
+FROM bit_db.JanSales
+GROUP BY product
+ORDER BY revenue desc;
+
+/*6*/ SELECT product, sum(Quantity), sum(Quantity)*price AS revenue
+FROM bit_db.FebSales
+WHERE location ='548 Lincoln St, Seattle, WA 98101'
+GROUP BY product;
+
+/*7*/ SELECT count(distinct cust.acctnum), avg(Quantity*price) 
+FROM bit_db.FebSales Feb
+LEFT JOIN bit_db.customers cust
+ON cust.order_id=Feb.orderID
+WHERE Feb.Quantity>2
+AND length(orderID)=6
+AND orderID<> 'Order ID';
