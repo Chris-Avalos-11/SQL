@@ -48,8 +48,17 @@ SELECT artist_name AS artist, avg(speechiness) lyrics, avg(acousticness) acousti
 FROM bit_db.SpotifyData
 GROUP BY artist;
 
-# Finally, I organized the artists by the avg energy levels & loudness of their music.
+# Next, I organized the artists by the avg energy levels & loudness of their music.
 SELECT artist_name AS artist, avg(energy), avg(loudness)
 FROM bit_db.SpotifyData
 GROUP BY artist
 ORDER BY avg(energy);
+
+# Finally, I ranked the 10 most popular artists on average as a 'Top Star'.
+WITH avg_popularity AS (
+    SELECT artist_name AS top_star, avg(popularity) avg_pop
+    FROM SpotifyData
+    GROUP BY top_star
+    HAVING avg_pop >= 90)
+SELECT top_star, avg_pop, 'Top Star' as ranking
+FROM avg_popularity;
