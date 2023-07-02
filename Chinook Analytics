@@ -9,6 +9,12 @@ CASE
     END AS customer_origin,
     count(customerid) total_customers
 FROM chinook.customers
-GROUP BY customer_origin
+GROUP BY customer_origin;
 
-#2. 
+#2. I then wanted to see how many albums various artists had available in the store.
+SELECT artists.name AS artist, COUNT(albums.albumid)
+FROM artists
+JOIN albums
+ON artists.artistid=albums.artistid
+GROUP BY artist;
+
