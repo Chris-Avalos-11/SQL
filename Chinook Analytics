@@ -1,0 +1,14 @@
+#In this project, I downloaded a dataset for a digital media store and its related information.
+# I then used SQL to query the data to find various interesting points of the data.
+
+#1. I wanted to see how many customers there where and whether they were doemstic.
+SELECT
+CASE 
+    WHEN country = 'USA' then 'Domestic'
+    ELSE 'International'
+    END AS customer_origin,
+    count(customerid) total_customers
+FROM chinook.customers
+GROUP BY customer_origin
+
+#2. 
