@@ -4,17 +4,81 @@
 #1. I wanted to see how many customers there where and whether they were doemstic.
 SELECT
 CASE 
-    WHEN country = 'USA' then 'Domestic'
+    WHEN country = 'Canada' then 'Domestic'
     ELSE 'International'
     END AS customer_origin,
     count(customerid) total_customers
 FROM chinook.customers
 GROUP BY customer_origin;
 
-#2. I then wanted to see how many albums various artists had available in the store.
+#2. I then wanted to see how many albums each artist had available in the store.
 SELECT artists.name AS artist, COUNT(albums.albumid)
 FROM artists
 JOIN albums
 ON artists.artistid=albums.artistid
 GROUP BY artist;
 
+#3. Next, I wanted to find the number of sales & total revenue made by each sales agent.
+SELECT emp.FirstName, emp.LastName, COUNT(inv.invoiceid) 'Number of Sales', ROUND(SUM(inv.total), 2) 'Total Revenue'
+FROM chinook.employees emp
+    JOIN chinook.customers cust
+    ON cust.supportrepid = emp.employeeid
+        JOIN chinook.invoices inv
+        ON inv.customerid=cust.customerid
+WHERE emp.title= 'Sales Support Agent'
+GROUP BY emp.firstname
+ORDER BY 'Total Revenue';
+
+#4. I then wanted to see the total number of sales and revenue made for each year on record, starting with the most recent year.
+SELECT 
+CASE
+    WHEN inv.invoicedate LIKE '2009%' THEN '2009'
+    WHEN inv.invoicedate LIKE '2010%' THEN '2010'
+    WHEN inv.invoicedate LIKE '2011%' THEN '2011'
+    WHEN inv.invoicedate LIKE '2012%' THEN '2012'
+    ELSE '2013'
+        END AS Year,
+    COUNT(inv.invoiceid) 'Sales Made', ROUND(SUM(inv.total),2) 'Total Revenue'
+FROM chinook.invoices inv
+GROUP BY Year
+ORDER BY Year desc;
+
+#5. Here I wanted to bring up all of the customer data for those in North American countries.
+SELECT *
+FROM customers
+WHERE country= "Canada" OR country="USA";
+
+#6. In this query I organized the number of invoices & total revenue by country of origin.
+SELECT billingcountry 'Order Origin', COUNT(invoiceid) '# of Orders', ROUND(SUM(total),2) 'Total Revenue'
+FROM invoices
+GROUP BY billingcountry
+ORDER BY ROUND(SUM(total),2) desc;
+
+#7. I ordered the artists by name and listed their available albums and the genre of each.
+SELECT ar.name 'Artist', al.title 'Album', g.name 'Genre'
+FROM artists ar
+    JOIN albums al
+    ON al.artistid=ar.artistid
+        JOIN tracks tr
+        ON al.albumid=tr.albumid
+            JOIN genres g
+            ON tr.genreid=g.genreid
+GROUP BY al.title
+ORDER BY ar.name, al.title;
+
+#8. Next, I wanted to see all of the albums and their media type.
+SELECT al.title 'Album', m.name 'Media Type'
+FROM albums al
+    JOIN tracks tr
+    ON al.albumid=tr.albumid
+    JOIN media_types m
+    ON tr.mediatypeid=m.mediatypeid
+GROUP BY al.title;
+
+#9. I then wanted to see the top 50 most purchased tracks.
+SELECT tr.name 'Top 50 Tracks', COUNT(ii.invoiceid) AS Purchases
+FROM tracks tr
+    JOIN invoice_items ii
+    ON tr.trackid=ii.trackid
+GROUP BY tr.name 
+ORDER BY Purchases desc limit 50;
